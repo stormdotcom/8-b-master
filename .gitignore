@@ -45,3 +45,5 @@ coverage/
 # Package Lock Files (if you prefer only one lock file)
 package-lock.json
 yarn.lock
+
+logs/
