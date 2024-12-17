@@ -44,7 +44,7 @@ fi
 pm2 delete master-api &> /dev/null
 
 # Start the app with PM2
-pm2 start dist/app.js --name master-api
+pm2 start npm --name master-api -- start
 
 # Save PM2 process list
 pm2 save
