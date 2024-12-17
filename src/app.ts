@@ -30,8 +30,6 @@ app.use('/logs', serverLogRoutes);
 app.use('/gork', gorkRoutes);
 
 app.use(notFoundHandler);
-
-// Error Handler Middleware
 app.use(errorHandler);
 
 export default app;
