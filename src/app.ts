@@ -25,7 +25,7 @@ AppDataSource.initialize()
 
 app.use('/api/v1', apiRoutes);
 
-
+app.get('/', (req:any, res:any)=> res.send("MASTER API v1.1"));
 app.use(notFoundHandler);
 app.use(errorHandler);
 
