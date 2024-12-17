@@ -1,4 +1,4 @@
-Here is the **updated Markdown documentation** with **PostgreSQL 14** installation commands replacing **phpMyAdmin** setup.
+Here’s the updated **Markdown documentation** with detailed PostgreSQL commands, including creating and verifying a database.
 
 ---
 
@@ -57,26 +57,35 @@ sudo systemctl start postgresql
 sudo systemctl enable postgresql
 ```
 
-### **2.3 Secure PostgreSQL and Create a Database**
-1. **Access PostgreSQL**:
-   ```bash
-   sudo -u postgres psql
-   ```
+---
 
-2. **Create a New User and Database**:
-   Inside the `psql` prompt, run:
+### **2.3 Create and Verify a Database**
+
+1. **Access PostgreSQL Prompt**:
+   - If you are using `sudo`, run:
+     ```bash
+     sudo -u postgres psql
+     ```
+   - If you are not using `sudo`, run:
+     ```bash
+     psql -U postgres
+     ```
+
+2. **Create a New Database**:
+   In the PostgreSQL prompt, run:
    ```sql
-   CREATE USER myuser WITH PASSWORD 'mypassword';
-   CREATE DATABASE mydatabase;
-   GRANT ALL PRIVILEGES ON DATABASE mydatabase TO myuser;
-   \q
+   CREATE DATABASE "8-b-master";
    ```
 
-Replace `myuser`, `mypassword`, and `mydatabase` with your desired values.
+3. **Verify the Database Creation**:
+   To list all databases, run:
+   ```sql
+   \l
+   ```
 
-3. **Verify PostgreSQL Service**:
-   ```bash
-   sudo systemctl status postgresql
+4. Exit the PostgreSQL prompt:
+   ```sql
+   \q
    ```
 
 ---
@@ -221,6 +230,17 @@ sudo systemctl start postgresql
 sudo systemctl enable postgresql
 ```
 
+### Create and Verify a Database:
+```bash
+sudo -u postgres psql
+```
+Inside the PostgreSQL prompt:
+```sql
+CREATE DATABASE "8-b-master";
+\l
+\q
+```
+
 ### Deploy Node.js App:
 ```bash
 git clone git@github.com:username/repository.git
@@ -249,11 +269,3 @@ pm2 logs master-api
 
 ---
 
-## **Conclusion**
-
-Your Ubuntu server is now configured with:
-- **Node.js** app running under **PM2**
-- Reverse proxy managed by **NGINX**
-- PostgreSQL 14 as the database
-
-Let me know if you need further clarifications or additional configurations! 🚀
