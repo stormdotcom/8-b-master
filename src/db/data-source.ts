@@ -8,10 +8,13 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   dotenv.config({ path: '.env.local' });
 }
-
+console.log("s", dbConfig)
 export const AppDataSource = new DataSource({
   type: 'postgres',
   entities: [ServerLog],
   synchronize: true,
-  ...dbConfig
+  host:dbConfig.host,
+  port:dbConfig.port,
+  username:dbConfig.username,
+  password:dbConfig.password
 });

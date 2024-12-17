@@ -15,7 +15,7 @@ export const dbConfig = {
   port: parseInt(process.env.DB_PORT || '5432', 10),
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'test',
+  database: process.env.DB_NAME,
 };
 
 export const PORT = process.env.PORT 
