@@ -1,7 +1,8 @@
 import { Repository } from 'typeorm';
-import { IServerLogRepository } from '../interfaces/IServerLogRepository';
-import { ServerLog } from '../../db/entities/ServerLog';
+
 import { AppDataSource } from '../../db/data-source';
+import { IServerLogRepository } from '../IServiceRepository';
+import { ServerLog } from '../../db/entities/Logs';
 
 export class ServerLogRepository implements IServerLogRepository {
   private repository: Repository<ServerLog>;

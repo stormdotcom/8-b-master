@@ -14,7 +14,7 @@ const logger = createLogger({
     format: commonLogFormat,
     transports: [
       new transports.File({ filename: "logs/app.log" }), // Log to a file
-      new transports.File({ filename: "logs/error.log", level: "error" }) // Log errors to a separate file
+      new transports.File({ filename: "logs/error.log", level: "error" })
     ],
   });
 
@@ -22,10 +22,19 @@ const logger = createLogger({
     level: "info",
     format: commonLogFormat,
     transports: [
-      new transports.Console(),
-      new transports.File({ filename: "logs/api.log" }), // Separate log file for API logs
+      
+      new transports.File({ filename: "logs/api.log" }), 
     ],
   });
+
+  const gorkApiLogger = createLogger({
+    level: "error",
+    format: commonLogFormat,
+    transports: [
+      new transports.File({ filename: "logs/gork.log" }), 
+    ],
+  });
+  
   
   
 
@@ -54,4 +63,4 @@ const logger = createLogger({
 
   
   
-  export  {logger, apiLogger, requestLoggerMiddleware};
+  export  {logger, apiLogger, requestLoggerMiddleware, gorkApiLogger};

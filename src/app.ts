@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import morgan from "morgan";
 import { AppDataSource } from './db/data-source';
 import serverLogRoutes from './api/routes/serverLogRoutes';
+import gorkRoutes from './api/routes/gorkRoutes';
+
 import { requestLoggerMiddleware } from './utils/logger';
 import { notFoundHandler } from './api/middleware/notFound';
 import { errorHandler } from './api/middleware/errorHandler';
@@ -23,8 +25,9 @@ AppDataSource.initialize()
   .then(() => console.log('Database connected'))
   .catch((error) => console.error('Database connection error:', error));
 
-// API Routes
+
 app.use('/logs', serverLogRoutes);
+app.use('/gork', gorkRoutes);
 
 app.use(notFoundHandler);
 
