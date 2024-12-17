@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: '.env.local' });
 }
 
+console.log("Test", process.env.NODE_ENV)
 // Export environment variables
 export const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
