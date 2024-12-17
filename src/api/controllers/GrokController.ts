@@ -13,7 +13,7 @@ export const submitQuery = async (req: Request, res: Response, next:any): Promis
       return;
     }
 
-    const response = {} //await grokService.getResponse(input);
+    const response = await grokService.getResponse(input);
     res.status(200).json({ response });
   } catch (error) {
     next(error)
