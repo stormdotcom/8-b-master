@@ -2,10 +2,10 @@
 import dotenv from 'dotenv';
 
 // Load environment variables based on the environment
-if (process.env.NODE_ENV === 'production') {
-  dotenv.config({ path: '.env' });
-} else {
+if (process.env.NODE_ENV === 'development'){
   dotenv.config({ path: '.env.local' });
+} else {
+  dotenv.config({ path: '.env' });
 }
 
 console.log("Test", process.env.NODE_ENV)
