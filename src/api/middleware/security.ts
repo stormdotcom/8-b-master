@@ -29,3 +29,26 @@ export const securityMiddleware = (req: Request, res: Response, next: NextFuncti
     compression()(req, res, next);
   });
 };
+
+export const allowedOrigins = ['http://localhost:6060', 'https://api.ajmalnasumudeen.in'];
+
+/**
+ * Validate the origin for CORS requests.
+ * @param origin - The origin of the request.
+ * @param callback - The callback to signal whether the origin is allowed or not.
+ */
+export const validateOrigin = (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void): void => {
+  // Allow requests with no origin (e.g., mobile apps, curl)
+  if (!origin) {
+    callback(null, true);
+    return;
+  }
+
+  // Check if the origin is in the allowed list
+  if (allowedOrigins.includes(origin)) {
+    callback(null, true);
+  } else {
+    console.error(`CORS error: Origin ${origin} not allowed`);
+    callback(new Error('Not allowed by CORS'));
+  }
+};
