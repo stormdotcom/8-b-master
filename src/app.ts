@@ -11,19 +11,18 @@ import { errorHandler } from './api/middleware/errorHandler';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { socketHandler } from './sockets';
-import helmet from 'helmet';
 
 import { setupMonitor } from './config/monitor';
-import { globalRateLimiter, securityMiddleware, validateOrigin } from './api/middleware/security';
+import { globalRateLimiter, securityMiddleware } from './api/middleware/security';
 import { validateCustomToken } from './api/middleware/auth';
 
 const app = express();
-app.use(
-  cors({
-    origin: validateOrigin,
-    credentials: true, // Allow cookies or authentication headers
-  })
-);
+// app.use(
+//   cors({
+//     origin: validateOrigin,
+//     credentials: true, // Allow cookies or authentication headers
+//   })
+// );
 app.use(morgan("dev")); 
 app.use(express.json());
 
