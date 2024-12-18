@@ -269,3 +269,40 @@ pm2 logs master-api
 
 ---
 
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Install dependencies and build
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nodejs npm
+          npm ci
+          npm run build
+
+      # Step 3: Deploy to Ubuntu server
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/8-b-master
+            git pull origin main
+            npm install --production
+            pm2 restart all
