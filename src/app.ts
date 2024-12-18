@@ -23,6 +23,8 @@ const app = express();
 //     credentials: true, // Allow cookies or authentication headers
 //   })
 // );
+
+app.use(cors());
 app.use(morgan("dev")); 
 app.use(express.json());
 
