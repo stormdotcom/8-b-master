@@ -11,8 +11,10 @@ import { errorHandler } from './api/middleware/errorHandler';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { socketHandler } from './sockets';
-import statusMonitor from 'express-status-monitor';
+import helmet from 'helmet';
+
 import { setupMonitor } from './config/monitor';
+import { globalRateLimiter, securityMiddleware } from './api/middleware/security';
 
 const app = express();
 app.use(cors());
@@ -26,6 +28,8 @@ const io = new Server(httpServer, { cors: {     origin: "*"}});
 socketHandler(io);
 setupMonitor(app);
 
+app.use(globalRateLimiter);
+app.use(securityMiddleware);
 app.use(requestLoggerMiddleware);
 // Connect to Database
 AppDataSource.initialize()

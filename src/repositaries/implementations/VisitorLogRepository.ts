@@ -13,52 +13,56 @@ export class VisitorLogRepository {
    * Calculate metrics: distinct route visit count, unique users, and bounce rate.
    * @returns An object containing distinct route counts, unique users, and bounce rate.
    */
-  async getVisitorMetrics(): Promise<{
-    distinctRouteCounts: { route: string; count: number }[];
-    uniqueUsers: number;
-    bounceRate: number;
-  }> {
-    // 1. Get distinct route counts
-    const distinctRouteCounts = await this.repository
-      .createQueryBuilder('log')
-      .select('log.route', 'route')
-      .addSelect('COUNT(log.id)', 'count')
-      .groupBy('log.route')
-      .orderBy('count', 'DESC')
-      .getRawMany();
+  async getVisitorMetrics(): Promise<
+  { route: string; visitors: number; uniqueUsers: number; bounceRate: number }[]
+> {
+  // 1. Get total visitors and unique users per route
+  const routeMetrics = await this.repository
+    .createQueryBuilder('log')
+    .select('log.route', 'route')
+    .addSelect('COUNT(log.id)', 'visitors')
+    .addSelect('COUNT(DISTINCT log.visitorId)', 'uniqueUsers')
+    .groupBy('log.route')
+    .orderBy('visitors', 'DESC')
+    .getRawMany();
 
-    // 2. Calculate unique users
-    const uniqueUsers = await this.repository
-      .createQueryBuilder('log')
-      .select('COUNT(DISTINCT log.visitorId)', 'uniqueCount')
-      .getRawOne();
+  // 2. Calculate bounce rate for each route
+  const bounceRates = await this.repository
+    .createQueryBuilder('log')
+    .select('log.route', 'route')
+    .addSelect('COUNT(DISTINCT log.visitorId)', 'totalUsers')
+    .addSelect(
+      `SUM(
+        CASE WHEN log.visitorId IN (
+          SELECT "visitorId" 
+          FROM "visitor_log" 
+          GROUP BY "visitorId" 
+          HAVING COUNT(DISTINCT route) = 1
+        ) THEN 1 ELSE 0 END
+      )`,
+      'bounces'
+    )
+    .groupBy('log.route')
+    .getRawMany();
 
-    // 3. Calculate bounce rate
-    const singleRouteSessions = await this.repository
-      .createQueryBuilder('log')
-      .select('log.visitorId', 'visitorId')
-      .addSelect('COUNT(DISTINCT log.route)', 'routeCount')
-      .groupBy('log.visitorId')
-      .having('COUNT(DISTINCT log.route) = 1')
-      .getRawMany();
-
-    const totalSessions = await this.repository
-      .createQueryBuilder('log')
-      .select('DISTINCT log.visitorId')
-      .getCount();
-
+  // 3. Combine results
+  const finalMetrics = routeMetrics.map((route) => {
+    const bounceData = bounceRates.find((b) => b.route === route.route);
     const bounceRate =
-      totalSessions > 0
-        ? (singleRouteSessions.length / totalSessions) * 100
+      bounceData && bounceData.totalUsers > 0
+        ? (parseInt(bounceData.bounces, 10) / parseInt(bounceData.totalUsers, 10)) * 100
         : 0;
 
-    // 4. Return calculated metrics
     return {
-      distinctRouteCounts,
-      uniqueUsers: parseInt(uniqueUsers.uniqueCount, 10),
-      bounceRate,
+      route: route.route,
+      visitors: parseInt(route.visitors, 10),
+      uniqueUsers: parseInt(route.uniqueUsers, 10),
+      bounceRate: parseFloat(bounceRate.toFixed(2)), // Round bounce rate to 2 decimal places
     };
-  }
+  });
+
+  return finalMetrics;
+}
 
   async getAll(): Promise<VisitorLog[]> {
     return await this.repository.find();

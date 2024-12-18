@@ -13,9 +13,11 @@ if (process.env.NODE_ENV === 'production') {
 export const AppDataSource = new DataSource({
   type: 'postgres',
   entities: [ServerLog, VisitorLog],
-  synchronize: true,
   host:dbConfig.host,
   port:dbConfig.port,
   username:dbConfig.username,
-  password:dbConfig.password
+  password:dbConfig.password,
+  synchronize: true,
+dropSchema: true,
+// logging: ['query', 'schema'], 
 });

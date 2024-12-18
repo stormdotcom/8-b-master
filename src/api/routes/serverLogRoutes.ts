@@ -1,17 +1,14 @@
 import { Router } from 'express';
-import { getAllLogs, createLog, visitorsLog } from '../controllers/ServerLogController';
+import { getAllLogs, createLog, visitorsLog, visitorMetrics } from '../controllers/ServerLogController';
 
 const router = Router();
 
 router.get('/', getAllLogs); // GET all logs
 router.post('/', createLog); 
+
+
 router.post('/visit', visitorsLog); 
-
-
-
-
-
-
+router.get('/metrics', visitorMetrics); 
 
 
 
