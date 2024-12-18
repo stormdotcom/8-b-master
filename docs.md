@@ -130,22 +130,22 @@ sudo nano /etc/nginx/sites-available/node-api
 ```
 
 ### **4.3 Add Reverse Proxy Configuration**
-Replace `your_domain_or_ip` and port as needed.
+Replace api.ajmalnasumudeen.in;` and port as needed.
 
 ```nginx
-server {
-    listen 80;
-    server_name your_domain_or_ip;
+   server {
+      listen 80;
+      server_name api.ajmalnasumudeen.in;
 
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
+      location / {
+         proxy_pass http://127.0.0.1:6060;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection 'upgrade';
+         proxy_set_header Host $host;
+         proxy_cache_bypass $http_upgrade;
+      }
+   }
 ```
 
 ### **4.4 Enable the New Configuration**

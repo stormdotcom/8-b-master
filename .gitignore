@@ -48,3 +48,7 @@ package-lock.json
 yarn.lock
 
 logs/
+zlinux-essentials/
+*.txt
+*.prem
+*.pub
