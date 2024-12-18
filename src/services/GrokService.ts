@@ -1,3 +1,4 @@
+import { FRIDAY_PROMPT } from "../config/constants";
 import { Repositories } from "../repositaries";
 
 export class GrokService {
@@ -12,7 +13,7 @@ export class GrokService {
     const sanitizedInput = this.sanitizeInput(userInput);
 
     const messages = [
-      { role: 'system', content: 'You are a helpful assistant.' },
+      { role: 'system', content: FRIDAY_PROMPT},
       { role: 'user', content: sanitizedInput },
     ];
 
