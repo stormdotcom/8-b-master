@@ -22,7 +22,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
 
       # Step 3: Deploy Code and Run Build Script on Server
       - name: 🚀 Deploy and Build on Server
