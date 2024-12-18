@@ -30,7 +30,7 @@ export const securityMiddleware = (req: Request, res: Response, next: NextFuncti
   });
 };
 
-export const allowedOrigins = ['http://localhost:6060', 'https://api.ajmalnasumudeen.in'];
+export const allowedOrigins = ['http://localhost:6060', 'https://www.ajmalnasumudeen.in', 'https://ajmalnasumudeen-stormdotcoms-projects.vercel.app'];
 
 /**
  * Validate the origin for CORS requests.
