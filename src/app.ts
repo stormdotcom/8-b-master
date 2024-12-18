@@ -39,6 +39,9 @@ app.use(securityMiddleware);
 app.use(requestLoggerMiddleware);
 
 app.get('/', (req:any, res:any)=> res.send("MASTER API v1.1"));
+app.get('/ping', (req, res) => {
+  res.status(200).json({ message: 'Server is up and running!' });
+});
 // Connect to Database
 AppDataSource.initialize()
   .then(() => console.log('Database connected'))

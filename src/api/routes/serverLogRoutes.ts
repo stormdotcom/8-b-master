@@ -11,10 +11,4 @@ router.post('/visit', visitorsLog);
 router.get('/metrics', visitorMetrics); 
 
 
-
-
-
-router.get('/ping', (req, res) => {
-    res.status(200).json({ message: 'Server is up and running!' });
-  });
 export default router;
