@@ -1,31 +1,47 @@
-name: Node.js CI/CD
+name: Master API Node.js CI/CD
 
 on:
   push:
     branches:
-      - main # Trigger on push to main branch
+      - main # Trigger on push to the main branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      # Step 1: Checkout the repository
+      - name: 🛠 Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch full history for accurate git operations
+        continue-on-error: false
 
-    # Step 2: Set up SSH for Deployment
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Step 2: Set up SSH for Deployment
+      - name: 🔑 Set Up SSH for Deployment
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
 
-    # Step 3: Deploy Code and Run build.sh on Server
-    - name: Deploy and Build on Server
-      run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-        cd /var/www/8-b-master
-        git pull origin main
-        chmod +x build.sh # Ensure build.sh is executable
-        ./build.sh        # Run the build.sh script
-        EOF
+      # Step 3: Deploy Code and Run Build Script on Server
+      - name: 🚀 Deploy and Build on Server
+        run: |
+          echo "Starting deployment to server..."
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          echo "Connected to the server"
+          echo "Navigating to project directory..."
+          cd /var/www/8-b-master
+
+          echo "Pulling the latest changes from the main branch..."
+          git pull origin main
+
+          echo "Setting executable permissions for build.sh..."
+          chmod +x build.sh
+
+          echo "Running the build.sh script..."
+          ./build.sh || { echo "Build script failed"; exit 1; }
+
+          echo "Deployment completed successfully!"
+          EOF
+        continue-on-error: false
