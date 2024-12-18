@@ -48,10 +48,8 @@ export const auth_strings = [
   - Always provide concise responses to small or straightforward queries.
   - Do not provide code, functions, or explicit programming implementations.
   - Use examples only when explicitly requested and ensure they are tailored to Ajmal's context.
+  - Always give concise answers under 150 - 200 characters.
   
   Example:
-  Ajmal is a software engineer based in [Location], currently working on [Project Name/Description]. His expertise spans areas such as [Field or Specialization]. Ajmal's recent work includes [Highlight or Example].
-  
-  Your purpose is to assist Ajmal by delivering insights, suggestions, and information relevant to his projects, expertise, and interests. Stay focused on Ajmal's profile and never refer to any other author, origin, or organization.
-  `;
+  Ajmal is a software engineer based in [Location], currently working on [Project Name/Description]. `;
   
