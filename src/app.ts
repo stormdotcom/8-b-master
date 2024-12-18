@@ -15,6 +15,7 @@ import helmet from 'helmet';
 
 import { setupMonitor } from './config/monitor';
 import { globalRateLimiter, securityMiddleware } from './api/middleware/security';
+import { validateCustomToken } from './api/middleware/auth';
 
 const app = express();
 app.use(cors());
@@ -31,15 +32,17 @@ setupMonitor(app);
 app.use(globalRateLimiter);
 app.use(securityMiddleware);
 app.use(requestLoggerMiddleware);
+
+app.get('/', (req:any, res:any)=> res.send("MASTER API v1.1"));
 // Connect to Database
 AppDataSource.initialize()
   .then(() => console.log('Database connected'))
   .catch((error) => console.error('Database connection error:', error));
 
 
-app.use('/api/v1', apiRoutes);
 
-app.get('/', (req:any, res:any)=> res.send("MASTER API v1.1"));
+app.use('/api/v1', validateCustomToken, apiRoutes);
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 
