@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllLogs, createLog, visitorsLog, visitorMetrics } from '../controllers/ServerLogController';
+import { getAllLogs, createLog, visitorsLog, visitorMetrics, getAllChats } from '../controllers/ServerLogController';
 
 const router = Router();
 
@@ -10,6 +10,8 @@ router.get('/stats', createLog);
 
 router.post('/visit', visitorsLog); 
 router.get('/metrics', visitorMetrics); 
+
+router.get('/chats/all', getAllChats); 
 
 
 export default router;

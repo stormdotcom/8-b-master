@@ -3,13 +3,14 @@ import { AppDataSource } from '../../db/data-source';
 import { ServerLog } from '../../db/entities/Logs';
 import { VisitorLog } from '../../db/entities/VisitorLog';
 import { VisitorLogRepository } from '../../repositaries/implementations/VisitorLogRepository';
+import { PromptsRepository } from '../../repositaries/implementations/PromptsRepository';
 
 
 const logRepository = AppDataSource.getRepository(ServerLog);
 const visitorLogRepository = AppDataSource.getRepository(VisitorLog);
 
 const VLR = new VisitorLogRepository();
-
+const PR = new PromptsRepository()
 export const getAllLogs = async (req: Request, res: Response) => {
   try {
     const { serverId, message } = req.body;
@@ -52,6 +53,15 @@ export const visitorMetrics = async (req: Request, res: Response, next: any) => 
   try {
     const vLog =await VLR.getVisitorMetrics();
     res.status(200).json({ data: vLog });
+  } catch (error: any) {
+    next(error)
+  }
+};
+
+export const getAllChats = async (req: Request, res: Response, next: any) => {
+  try {
+    const allChats =await PR.getAll();
+    res.status(200).json({ data: allChats });
   } catch (error: any) {
     next(error)
   }

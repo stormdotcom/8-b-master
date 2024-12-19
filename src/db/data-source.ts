@@ -3,6 +3,7 @@ import { ServerLog } from './entities/Logs';
 import dotenv from 'dotenv';
 import { dbConfig } from '../config/config';
 import { VisitorLog } from './entities/VisitorLog';
+import { Prompts } from './entities/Prompts';
 
 if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: '.env' });
@@ -12,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  entities: [ServerLog, VisitorLog],
+  entities: [ServerLog, VisitorLog, Prompts],
   host:dbConfig.host,
   port:dbConfig.port,
   username:dbConfig.username,
